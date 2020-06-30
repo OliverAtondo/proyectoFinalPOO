@@ -5,9 +5,10 @@ import java.net.*;
 import java.io.*;
 
 class Cliente extends JFrame implements ActionListener{
-	JTextField campo1;
+	JTextField campoNombre;
+	JTextField campoSinNombre;
 	JPanel panel;
-	JButton btnInicio;
+	JButton btnEnviar;
 	JLabel lblTexto;
 
 	public Cliente(){
@@ -16,31 +17,36 @@ class Cliente extends JFrame implements ActionListener{
 
 		lblTexto=new JLabel("CLIENTE");
 		lblTexto.setBounds(75,0,150,30);
-		campo1=new JTextField(20);
-		campo1.setBounds(10,40,225,30);
-		btnInicio=new JButton("Enviar");
-		btnInicio.setBounds(75,100,75,30);
-		btnInicio.addActionListener(this);
+		campoNombre=new JTextField(20);
+		campoNombre.setBounds(10,40,225,30);
+		campoSinNombre=new JTextField(20);
+		campoSinNombre.setBounds(10,80,225,30);
+		btnEnviar=new JButton("Enviar");
+		btnEnviar.setBounds(75,100,75,30);
+		btnEnviar.addActionListener(this);
 
-		panel.add(btnInicio);
-		panel.add(campo1);
+		panel.add(btnEnviar);
+		panel.add(campoNombre);
+		panel.add(campoSinNombre);
 		panel.add(lblTexto);
 
 		this.add(panel);
-		this.setBounds(600,300,280,350);
+		this.setBounds(600,300,275,500);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	public void actionPerformed(ActionEvent event){
-		if(event.getSource() == this.btnInicio){
+		if(event.getSource() == this.btnEnviar){
 			try {
-				Socket misocket = new Socket("192.168.1.90",9000); //IP del servidor
-				DataOutputStream flujo_salida = new DataOutputStream(misocket.getOutputStream());
-				flujo_salida.writeUTF(campo1.getText());
-				flujo_salida.close();
-				campo1.setText("");
+				Socket socket = new Socket("201.130.104.179",9000); //IP del servidor
+				ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
+				Objeto o = new Objeto(campoNombre.getText(),campoSinNombre.getText());
+				os.writeObject(o);
+				os.close();
+				campoNombre.setText("");
+				campoSinNombre.setText("");
 			}catch (Exception e) {
-				System.out.println("No conecto");
+				System.out.println("Error en la conexion");
 			}
 
 		}
