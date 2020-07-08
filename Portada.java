@@ -9,12 +9,14 @@ class Portada extends JPanel implements Runnable{
 	BufferedImage imagen;
 	int numeroImagenes;
 	int actual;
+	int x;
 
-	public Portada(int numeroImagenes, BufferedImage imagen)
+	public Portada(int numeroImagenes, BufferedImage imagen,int x)
 	{
 		this.setOpaque(false);
 		this.numeroImagenes = numeroImagenes;
-		this. imagen = imagen;
+		this.imagen = imagen;
+		this.x = x;
 	}
 
 	@Override
@@ -38,7 +40,7 @@ class Portada extends JPanel implements Runnable{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		g.drawImage(imagen.getSubimage(1080*(actual),0,1080,720),0,0,1080,180,null);
+		g.drawImage(imagen.getSubimage(1080*(actual),0,1080,720),0,0,x,180,null);
 	}
 
 	public void retardo(int ms)
